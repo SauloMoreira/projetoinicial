@@ -164,143 +164,145 @@ export default function FiadoChargeDialog({ open, onOpenChange, onChargeCreated,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
+      <DialogContent className="sm:max-w-2xl w-full max-h-[92vh] flex flex-col p-0 gap-0">
+        {/* Header */}
+        <DialogHeader className="px-5 pt-5 pb-3 border-b shrink-0">
+          <DialogTitle className="flex items-center gap-2 text-base">
             {step === 'select_products' && !preSelectedVolunteerId && (
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setStep('select_volunteer')}>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => setStep('select_volunteer')}>
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             )}
-            <ShoppingCart className="h-4 w-4 text-primary" />
+            <ShoppingCart className="h-5 w-5 text-primary shrink-0" />
             {step === 'select_volunteer' ? 'Novo Fiado — Selecionar Voluntário' : 'Novo Fiado'}
           </DialogTitle>
         </DialogHeader>
 
         {/* Step 1: Select volunteer */}
         {step === 'select_volunteer' && (
-          <div className="space-y-3">
-            <div className="relative">
+          <div className="flex flex-col gap-3 p-5 overflow-hidden flex-1">
+            <div className="relative shrink-0">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Buscar voluntário..." value={volSearch} onChange={e => setVolSearch(e.target.value)} className="h-12 pl-10" />
+              <Input placeholder="Buscar voluntário..." value={volSearch} onChange={e => setVolSearch(e.target.value)} className="h-12 pl-10 text-base" />
             </div>
-            <div className="space-y-2 max-h-[50vh] overflow-y-auto">
+            <div className="space-y-2 overflow-y-auto flex-1">
               {filteredVolunteers.map(v => (
-                <Card key={v.id} className="cursor-pointer hover:border-primary/30 transition-all" onClick={() => selectVolunteer(v)}>
-                  <CardContent className="flex items-center gap-3 p-3">
+                <Card key={v.id} className="cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-all active:scale-[0.99]" onClick={() => selectVolunteer(v)}>
+                  <CardContent className="flex items-center gap-4 p-4">
                     {v.avatar_url ? (
-                      <img src={v.avatar_url} alt="" className="h-10 w-10 rounded-full object-cover" />
+                      <img src={v.avatar_url} alt="" className="h-12 w-12 rounded-full object-cover shrink-0" />
                     ) : (
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                        <User className="h-5 w-5 text-primary" />
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                        <User className="h-6 w-6 text-primary" />
                       </div>
                     )}
-                    <p className="text-sm font-medium">{v.full_name}</p>
+                    <p className="font-medium text-sm">{v.full_name}</p>
                   </CardContent>
                 </Card>
               ))}
               {filteredVolunteers.length === 0 && (
-                <p className="text-center text-sm text-muted-foreground py-6">Nenhum voluntário encontrado.</p>
+                <p className="text-center text-sm text-muted-foreground py-10">Nenhum voluntário encontrado.</p>
               )}
             </div>
           </div>
         )}
 
-        {/* Step 2: Select products (PDV-style) */}
+        {/* Step 2: Select products */}
         {step === 'select_products' && selectedVolunteer && (
-          <div className="space-y-3">
+          <div className="flex flex-col overflow-hidden flex-1">
             {/* Volunteer header */}
-            <div className="flex items-center gap-3 p-2 rounded-lg bg-muted/50">
+            <div className="flex items-center gap-3 px-5 py-3 bg-muted/40 border-b shrink-0">
               {selectedVolunteer.avatar_url ? (
-                <img src={selectedVolunteer.avatar_url} alt="" className="h-8 w-8 rounded-full object-cover" />
+                <img src={selectedVolunteer.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover shrink-0" />
               ) : (
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
-                  <User className="h-4 w-4 text-primary" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                  <User className="h-5 w-5 text-primary" />
                 </div>
               )}
-              <p className="text-sm font-medium">{selectedVolunteer.full_name}</p>
+              <p className="font-semibold text-sm">{selectedVolunteer.full_name}</p>
             </div>
 
             {/* Product search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Buscar produto..." value={search} onChange={e => setSearch(e.target.value)} className="h-12 pl-10" />
+            <div className="px-5 pt-4 pb-2 shrink-0">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input placeholder="Buscar produto..." value={search} onChange={e => setSearch(e.target.value)} className="h-12 pl-10 text-base" />
+              </div>
             </div>
 
-            {/* Product grid */}
-            <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
-              {/* Manual item button */}
-              <button
-                onClick={() => setManualItemOpen(true)}
-                className="stat-card text-left transition-transform active:scale-95 hover:border-primary/30 border-2 border-dashed border-muted-foreground/20 p-2"
-              >
-                <div className="flex items-center gap-1.5">
-                  <PenLine className="h-3 w-3 text-muted-foreground" />
-                  <p className="text-xs font-medium leading-tight text-muted-foreground">Item Avulso</p>
-                </div>
-              </button>
-              {filteredProducts.map(product => (
+            {/* Product grid — scrollable, takes available space */}
+            <div className="px-5 overflow-y-auto flex-1 pb-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {/* Manual item button */}
                 <button
-                  key={product.id}
-                  onClick={() => addToCart(product)}
-                  className="stat-card text-left transition-transform active:scale-95 hover:border-primary/30 flex flex-col items-center gap-1 p-2"
+                  onClick={() => setManualItemOpen(true)}
+                  className="stat-card flex flex-col items-center justify-center gap-2 p-4 min-h-[100px] border-2 border-dashed border-muted-foreground/25 hover:border-primary/40 transition-colors active:scale-95"
                 >
-                  <ProductImage src={(product as any).image_url} size="sm" alt={product.name} />
-                  <p className="text-xs font-medium leading-tight truncate text-center w-full">{product.name}</p>
-                  <p className="financial-value text-xs text-primary">{formatCurrency(Number(product.unit_price))}</p>
+                  <PenLine className="h-5 w-5 text-muted-foreground" />
+                  <p className="text-xs font-medium text-muted-foreground text-center leading-tight">Item Avulso</p>
                 </button>
-              ))}
+                {filteredProducts.map(product => (
+                  <button
+                    key={product.id}
+                    onClick={() => addToCart(product)}
+                    className="stat-card flex flex-col items-center gap-2 p-4 min-h-[100px] hover:border-primary/40 transition-colors active:scale-95"
+                  >
+                    <ProductImage src={(product as any).image_url} size="sm" alt={product.name} />
+                    <p className="text-xs font-medium leading-tight text-center w-full line-clamp-2">{product.name}</p>
+                    <p className="financial-value text-xs font-semibold text-primary">{formatCurrency(Number(product.unit_price))}</p>
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Cart */}
+            {/* Cart — fixed at bottom */}
             {cart.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Itens ({cart.length})</p>
-                <div className="space-y-1 max-h-32 overflow-y-auto">
+              <div className="border-t bg-background px-5 pt-3 pb-5 space-y-3 shrink-0">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Carrinho ({cart.length} {cart.length === 1 ? 'item' : 'itens'})</p>
+                  <span className="text-sm font-bold text-primary financial-value">{formatCurrency(total)}</span>
+                </div>
+
+                <div className="space-y-1.5 max-h-40 overflow-y-auto">
                   {cart.map(item => {
                     const id = getItemId(item);
                     return (
-                    <div key={id} className="flex items-center gap-2 rounded-lg bg-muted/50 p-2">
-                      <ProductImage
-                        src={item.itemType === 'product' ? (item.product as any)?.image_url : null}
-                        itemType={item.itemType}
-                        size="sm"
-                        alt={getItemName(item)}
-                        className="h-6 w-6"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium truncate">
-                          {getItemName(item)}
-                          {item.itemType === 'manual' && <span className="ml-1 text-[10px] text-muted-foreground">(avulso)</span>}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground">{formatCurrency(getItemPrice(item))}</p>
+                      <div key={id} className="flex items-center gap-3 rounded-lg bg-muted/50 px-3 py-2">
+                        <ProductImage
+                          src={item.itemType === 'product' ? (item.product as any)?.image_url : null}
+                          itemType={item.itemType}
+                          size="sm"
+                          alt={getItemName(item)}
+                          className="h-7 w-7 shrink-0"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-medium truncate">
+                            {getItemName(item)}
+                            {item.itemType === 'manual' && <span className="ml-1 text-[10px] text-muted-foreground">(avulso)</span>}
+                          </p>
+                          <p className="text-[11px] text-muted-foreground">{formatCurrency(getItemPrice(item))} × {item.quantity} = {formatCurrency(getItemPrice(item) * item.quantity)}</p>
+                        </div>
+                        <div className="flex items-center gap-0.5 shrink-0">
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => updateQuantity(id, -1)}>
+                            <Minus className="h-3.5 w-3.5" />
+                          </Button>
+                          <span className="w-6 text-center text-sm font-semibold">{item.quantity}</span>
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => updateQuantity(id, 1)}>
+                            <Plus className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => removeItem(id)}>
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => updateQuantity(id, -1)}>
-                          <Minus className="h-3 w-3" />
-                        </Button>
-                        <span className="w-5 text-center text-xs font-medium">{item.quantity}</span>
-                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => updateQuantity(id, 1)}>
-                          <Plus className="h-3 w-3" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-6 w-6 text-expense" onClick={() => removeItem(id)}>
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </div>
                     );
                   })}
                 </div>
 
-                <Input placeholder="Observações (opcional)" value={notes} onChange={e => setNotes(e.target.value)} />
+                <Input placeholder="Observações (opcional)" value={notes} onChange={e => setNotes(e.target.value)} className="h-10" />
 
-                <div className="flex justify-between text-base font-bold pt-1">
-                  <span>Total</span>
-                  <span className="financial-value text-primary">{formatCurrency(total)}</span>
-                </div>
-
-                <Button className="h-12 w-full" onClick={confirmCharge} disabled={loading}>
-                  {loading ? 'Registrando...' : `Registrar Fiado ${formatCurrency(total)}`}
+                <Button className="h-12 w-full text-sm font-semibold" onClick={confirmCharge} disabled={loading}>
+                  {loading ? 'Registrando...' : `Registrar Fiado — ${formatCurrency(total)}`}
                 </Button>
               </div>
             )}
