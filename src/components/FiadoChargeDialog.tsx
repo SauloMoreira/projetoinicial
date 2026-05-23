@@ -164,7 +164,7 @@ export default function FiadoChargeDialog({ open, onOpenChange, onChargeCreated,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl w-full max-h-[92vh] flex flex-col p-0 gap-0">
+      <DialogContent className="!max-w-2xl w-[calc(100vw-2rem)] max-h-[92vh] flex flex-col p-0 gap-0">
         {/* Header */}
         <DialogHeader className="px-5 pt-5 pb-3 border-b shrink-0">
           <DialogTitle className="flex items-center gap-2 text-base">
