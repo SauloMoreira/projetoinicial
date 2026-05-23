@@ -164,7 +164,7 @@ export default function FiadoChargeDialog({ open, onOpenChange, onChargeCreated,
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="!max-w-2xl w-[calc(100vw-2rem)] max-h-[92vh] flex flex-col p-0 gap-0">
+      <DialogContent className="!max-w-2xl w-[calc(100vw-2rem)] h-[85vh] flex flex-col p-0 gap-0">
         {/* Header */}
         <DialogHeader className="px-5 pt-5 pb-3 border-b shrink-0">
           <DialogTitle className="flex items-center gap-2 text-base">
@@ -180,7 +180,7 @@ export default function FiadoChargeDialog({ open, onOpenChange, onChargeCreated,
 
         {/* Step 1: Select volunteer */}
         {step === 'select_volunteer' && (
-          <div className="flex flex-col gap-3 p-5 overflow-hidden flex-1">
+          <div className="flex flex-col gap-3 p-5 overflow-hidden flex-1 min-h-0">
             <div className="relative shrink-0">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input placeholder="Buscar voluntário..." value={volSearch} onChange={e => setVolSearch(e.target.value)} className="h-12 pl-10 text-base" />
@@ -209,7 +209,7 @@ export default function FiadoChargeDialog({ open, onOpenChange, onChargeCreated,
 
         {/* Step 2: Select products */}
         {step === 'select_products' && selectedVolunteer && (
-          <div className="flex flex-col overflow-hidden flex-1">
+          <div className="flex flex-col overflow-hidden flex-1 min-h-0">
             {/* Volunteer header */}
             <div className="flex items-center gap-3 px-5 py-3 bg-muted/40 border-b shrink-0">
               {selectedVolunteer.avatar_url ? (
@@ -231,8 +231,8 @@ export default function FiadoChargeDialog({ open, onOpenChange, onChargeCreated,
             </div>
 
             {/* Product grid — scrollable, takes available space */}
-            <div className="px-5 overflow-y-auto flex-1 pb-2">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="px-5 overflow-y-auto flex-1 min-h-0 pb-2">
+              <div className="grid grid-cols-3 gap-3">
                 {/* Manual item button */}
                 <button
                   onClick={() => setManualItemOpen(true)}
